@@ -6,10 +6,8 @@
 #ifndef _SDK_COLLECTIONRULE
 #define _SDK_COLLECTIONRULE
 
-#include <array>
 #include <memory>
 #include <vector>
-
 #include "sdk/data/Collection.hpp"
 #include "sdk/interfaces/ICollectionRule.hpp"
 #include "sdk/interfaces/IRule.hpp"

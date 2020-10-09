@@ -6,7 +6,6 @@
 #ifndef _SDK_COLLECTION
 #define _SDK_COLLECTION
 #include <array>
-
 #include "sdk/data/Digit.hpp"
 
 namespace sdk {

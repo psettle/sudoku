@@ -2,7 +2,6 @@
  * sdk.cpp - Sudoku Solver
  */
 #include "sdk.hpp"
-
 #include "sdk/Pipeline.hpp"
 #include "sdk/rules/CollectionRule.hpp"
 #include "sdk/rules/ExclusiveTupleRule.hpp"

@@ -4,7 +4,6 @@
 #ifndef _SDK_DIGIT
 #define _SDK_DIGIT
 #include <stdint.h>
-
 #include <string>
 namespace sdk {
 namespace data {

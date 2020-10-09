@@ -5,7 +5,6 @@
 #define _SDK_PIPELINE
 #include <memory>
 #include <vector>
-
 #include "sdk/data/Grid.hpp"
 #include "sdk/interfaces/IRule.hpp"
 

@@ -7,8 +7,6 @@
 #ifndef _SDK_EXCLUSIVETUPLERULE
 #define _SDK_EXCLUSIVETUPLERULE
 
-#include <vector>
-
 #include "sdk/interfaces/ICollectionRule.hpp"
 
 namespace sdk {
@@ -25,9 +23,6 @@ class ExclusiveTupleRule : public interfaces::ICollectionRule {
   bool Apply(data::Collection& collection) override;
 
  private:
-  static bool Increment(std::vector<data::Collection::iterator>& iterator,
-                        data::Collection::iterator const& end, uint8_t order = 0);
-
   uint8_t order_;
 };
 }  // namespace rules

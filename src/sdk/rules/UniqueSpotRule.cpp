@@ -10,6 +10,9 @@ using namespace sdk::rules;
 using ::sdk::data::Collection;
 using ::sdk::data::Digit;
 
+/**
+ * Apply the unique spot rule to the provided collection
+ */
 bool UniqueSpotRule::Apply(Collection& collection) {
   bool progress = false;
   // For each possible digit

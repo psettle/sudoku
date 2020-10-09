@@ -6,7 +6,6 @@
 #include <array>
 #include <sstream>
 #include <string>
-
 #include "sdk/data/Collection.hpp"
 #include "sdk/data/Digit.hpp"
 
