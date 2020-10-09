@@ -6,9 +6,12 @@
 #include "sdk/rules/CollectionRule.hpp"
 
 using namespace sdk::rules;
-using ::sdk::data::Collection;
 
-CollectionRule::CollectionRule(std::array<Collection, 9>& view) : view_(view) {}
+CollectionRule::CollectionRule(data::View& view) : view_(view) {}
+
+void CollectionRule::AddRule(interfaces::ICollectionRule* rule) {
+  rules_.push_back(std::unique_ptr<interfaces::ICollectionRule>(rule));
+}
 
 bool CollectionRule::Apply() {
   bool progress = false;

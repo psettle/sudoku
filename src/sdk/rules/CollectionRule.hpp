@@ -20,10 +20,8 @@ class CollectionRule : public interfaces::IRule {
  public:
   virtual ~CollectionRule() {}
 
-  CollectionRule(std::array<data::Collection, 9>& view);
-  void AddRule(interfaces::ICollectionRule* rule) {
-    rules_.push_back(std::unique_ptr<interfaces::ICollectionRule>(rule));
-  }
+  CollectionRule(data::View& view);
+  void AddRule(interfaces::ICollectionRule* rule);
 
   /**
    * Implements IRule::Apply
@@ -31,7 +29,7 @@ class CollectionRule : public interfaces::IRule {
   bool Apply() override;
 
  private:
-  std::array<data::Collection, 9>& view_;
+  data::View& view_;
   std::vector<std::unique_ptr<interfaces::ICollectionRule>> rules_;
 };
 }  // namespace rules

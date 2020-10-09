@@ -15,7 +15,7 @@ SOURCES += src/sdk/sdk.cpp
 SOURCES += src/sdk/Pipeline.cpp
 SOURCES += src/sdk/data/Grid.cpp
 SOURCES += src/sdk/data/Digit.cpp
-SOURCES += src/sdk/rules/RepeatedDigitsRule.cpp
+SOURCES += src/sdk/rules/ExclusiveTupleRule.cpp
 SOURCES += src/sdk/rules/UniqueSpotRule.cpp
 SOURCES += src/sdk/rules/CollectionRule.cpp
 

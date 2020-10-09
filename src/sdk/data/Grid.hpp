@@ -17,9 +17,9 @@ class Grid {
  public:
   Grid(std::initializer_list<std::initializer_list<Digit>> const& digits);
 
-  std::array<Collection, 9>& GetRowView() { return rows_; }
-  std::array<Collection, 9>& GetColumnView() { return columns_; }
-  std::array<Collection, 9>& GetBoxView() { return boxes_; }
+  View& GetRowView() { return rows_; }
+  View& GetColumnView() { return columns_; }
+  View& GetBoxView() { return boxes_; }
 
   bool IsSolved() const;
   std::string ToString() const {
@@ -37,9 +37,9 @@ class Grid {
  private:
   std::array<Digit, 9 * 9> cells_;
 
-  std::array<Collection, 9> rows_;
-  std::array<Collection, 9> columns_;
-  std::array<Collection, 9> boxes_;
+  View rows_;
+  View columns_;
+  View boxes_;
 };
 }  // namespace data
 }  // namespace sdk

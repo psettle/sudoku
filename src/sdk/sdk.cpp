@@ -5,12 +5,12 @@
 
 #include "sdk/Pipeline.hpp"
 #include "sdk/rules/CollectionRule.hpp"
-#include "sdk/rules/RepeatedDigitsRule.hpp"
+#include "sdk/rules/ExclusiveTupleRule.hpp"
 #include "sdk/rules/UniqueSpotRule.hpp"
 
 using namespace sdk;
 
-static rules::CollectionRule* BuildCollectionRule(std::array<data::Collection, 9>& view);
+static rules::CollectionRule* BuildCollectionRule(data::View& view);
 
 /**
  * Solve the provided puzzle in place.
@@ -27,9 +27,16 @@ bool sdk::Solve(data::Grid& puzzle) {
   return pipeline.Run();
 }
 
-static rules::CollectionRule* BuildCollectionRule(std::array<data::Collection, 9>& view) {
+static rules::CollectionRule* BuildCollectionRule(data::View& view) {
   auto rule = new rules::CollectionRule(view);
-  rule->AddRule(new rules::RepeatedDigitsRule());
   rule->AddRule(new rules::UniqueSpotRule());
+  rule->AddRule(new rules::ExclusiveTupleRule(1));
+  rule->AddRule(new rules::ExclusiveTupleRule(2));
+  rule->AddRule(new rules::ExclusiveTupleRule(3));
+  rule->AddRule(new rules::ExclusiveTupleRule(4));
+  rule->AddRule(new rules::ExclusiveTupleRule(5));
+  rule->AddRule(new rules::ExclusiveTupleRule(6));
+  rule->AddRule(new rules::ExclusiveTupleRule(7));
+  rule->AddRule(new rules::ExclusiveTupleRule(8));
   return rule;
 }

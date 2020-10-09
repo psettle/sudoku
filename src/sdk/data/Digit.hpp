@@ -13,17 +13,13 @@ class Digit {
   Digit() : val_(0x1FF) {}
   Digit(uint16_t val) : val_(val) {}
 
-  bool IsSolved() const { return (val_ & (val_ - 1)) == 0; }
-  bool Remove(Digit const& other) {
-    if (val_ & other.val_) {
-      val_ &= ~other.val_;
-      return true;
-    } else {
-      return false;
-    }
-  }
+  bool IsSolved() const { return PossibleValues() == 1; }
+
+  bool Remove(Digit const& other);
+  bool Add(Digit const& other);
 
   bool CanBe(Digit const& digit) const { return val_ & digit.val_; }
+  uint8_t PossibleValues() const { return __builtin_popcount(val_); }
 
   std::string ToString() const;
 

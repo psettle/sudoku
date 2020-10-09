@@ -7,6 +7,18 @@
 
 using namespace sdk::data;
 
+bool Digit::Remove(Digit const& other) {
+  uint8_t before = PossibleValues();
+  val_ &= ~other.val_;
+  return PossibleValues() != before;
+}
+
+bool Digit::Add(Digit const& other) {
+  uint8_t before = PossibleValues();
+  val_ |= other.val_;
+  return PossibleValues() != before;
+}
+
 std::string Digit::ToString() const {
   std::string str = "";
   if (val_ & k1.val_) {

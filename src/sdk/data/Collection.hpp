@@ -12,6 +12,7 @@
 namespace sdk {
 namespace data {
 typedef std::array<Digit*, 9> Collection;
+typedef std::array<Collection, 9> View;
 
 }  // namespace data
 }  // namespace sdk
