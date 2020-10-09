@@ -16,8 +16,10 @@ SOURCES += src/sdk/Pipeline.cpp
 SOURCES += src/sdk/data/Grid.cpp
 SOURCES += src/sdk/data/Digit.cpp
 SOURCES += src/sdk/rules/ExclusiveTupleRule.cpp
-SOURCES += src/sdk/rules/UniqueSpotRule.cpp
 SOURCES += src/sdk/rules/CollectionRule.cpp
+SOURCES += src/sdk/rules/LimitedTupleIdentifier.cpp
+SOURCES += src/sdk/rules/LimitedTupleTrimmer.cpp
+SOURCES += src/sdk/rules/LimitedTupleMatcher.cpp
 
 #lib includes
 
@@ -39,7 +41,7 @@ OBJECTS=$(SOURCES:.cpp=.o)
 OBJECTS_FINAL=$(OBJECTS:%.o=out/%.o)
 OBJECTS_FINAL_PLUS_MAIN=$(OBJECTS_FINAL)
 OBJECTS_FINAL_PLUS_MAIN+=$(EXECUTABLE_MAIN_O)
-DEPENDENCIES=$(OBJECTS_FINAL:.o=.d)
+DEPENDENCIES=$(OBJECTS_FINAL_PLUS_MAIN:.o=.d)
 
 INCLUDE_FORMATTED=$(addprefix -I, $(INCLUDE))
 

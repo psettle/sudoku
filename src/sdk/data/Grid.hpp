@@ -23,9 +23,10 @@ class Grid {
   bool IsSolved() const;
   std::string ToString() const {
     std::ostringstream str;
+    char ws = IsSolved() ? ' ' : '\t';
     for (size_t i = 0; i < 9; ++i) {
       for (size_t j = 0; j < 9; ++j) {
-        str << '\t' << cells_[9 * i + j].ToString();
+        str << ws << cells_[9 * i + j].ToString();
       }
       str << std::endl;
     }

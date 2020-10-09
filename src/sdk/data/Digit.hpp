@@ -20,6 +20,9 @@ class Digit {
   bool CanBe(Digit const& digit) const { return val_ & digit.val_; }
   uint8_t PossibleValues() const { return __builtin_popcount(val_); }
 
+  bool operator==(Digit const& other) const { return other.val_ == val_; }
+  bool operator!=(Digit const& other) const { return !(*this == other); }
+
   std::string ToString() const;
 
  private:
