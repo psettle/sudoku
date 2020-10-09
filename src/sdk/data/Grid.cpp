@@ -1,9 +1,9 @@
 /**
  * Grid.cpp - Sudoku Grid
  */
-#include "sdk_Grid.hpp"
+#include "sdk/data/Grid.hpp"
 
-using namespace sdk;
+using namespace sdk::data;
 
 /**
  * Populate grid with digits
@@ -19,27 +19,25 @@ Grid::Grid(std::initializer_list<std::initializer_list<Digit>> const& digits) {
 
   // Populate row lookup table
   for (size_t row_index = 0; row_index < 9; ++row_index) {
-    std::array<Digit*, 9> row;
+    Collection& row = rows_[row_index];
     for (size_t row_offset = 0; row_offset < 9; ++row_offset) {
       row[row_offset] = &cells_[9 * row_index + row_offset];
     }
-    rows_[row_index] = Collection(row);
   }
 
   // Populate column lookup table
   for (size_t column_index = 0; column_index < 9; ++column_index) {
-    std::array<Digit*, 9> column;
+    Collection& column = columns_[column_index];
     for (size_t column_offset = 0; column_offset < 9; ++column_offset) {
       column[column_offset] = &cells_[column_index + 9 * column_offset];
     }
-    columns_[column_index] = Collection(column);
   }
 
   // Populate box lookup table
   for (size_t box_row = 0; box_row < 3; ++box_row) {
     for (size_t box_column = 0; box_column < 3; ++box_column) {
       size_t box_offset = 3 * box_column + 27 * box_row;
-      std::array<Digit*, 9> box;
+      Collection& box = boxes_[3 * box_column + box_row];
 
       for (size_t row_offset = 0; row_offset < 3; ++row_offset) {
         for (size_t column_offset = 0; column_offset < 3; ++column_offset) {
@@ -47,7 +45,6 @@ Grid::Grid(std::initializer_list<std::initializer_list<Digit>> const& digits) {
               &cells_[box_offset + 9 * row_offset + column_offset];
         }
       }
-      boxes_[3 * box_column + box_row] = Collection(box);
     }
   }
 }

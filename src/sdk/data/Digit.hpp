@@ -1,12 +1,13 @@
 /**
- * sdk_Digit.hpp - Sudoku Digit
+ * Digit.hpp - Sudoku Digit
  */
 #ifndef _SDK_DIGIT
 #define _SDK_DIGIT
-#include <iostream>
+#include <stdint.h>
 
-#include "stdint.h"
+#include <string>
 namespace sdk {
+namespace data {
 class Digit {
  public:
   Digit() : val_(0x1FF) {}
@@ -15,14 +16,16 @@ class Digit {
   bool IsSolved() const { return (val_ & (val_ - 1)) == 0; }
   bool Remove(Digit const& other) {
     if (val_ & other.val_) {
-      static int i = 0;
-      std::cout << i++ << std::endl;
       val_ &= ~other.val_;
       return true;
     } else {
       return false;
     }
   }
+
+  bool CanBe(Digit const& digit) const { return val_ & digit.val_; }
+
+  std::string ToString() const;
 
  private:
   uint16_t val_;
@@ -38,6 +41,8 @@ static Digit const k7 = (1 << 6);
 static Digit const k8 = (1 << 7);
 static Digit const k9 = (1 << 8);
 static Digit const kU;
+static Digit const kDigits[] = {k1, k2, k3, k4, k5, k6, k7, k8, k9};
 
+}  // namespace data
 }  // namespace sdk
 #endif /* _SDK_DIGIT */

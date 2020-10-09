@@ -3,10 +3,10 @@
  */
 #ifndef _SDK
 #define _SDK
-#include "sdk_Grid.hpp"
+#include "sdk/data/Grid.hpp"
 
 namespace sdk {
-bool Solve(Grid& puzzle);
+bool Solve(data::Grid& puzzle);
 }  // namespace sdk
 
 #endif /* _SDK */

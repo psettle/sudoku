@@ -9,17 +9,15 @@ INCLUDE=
 #header includes
 INCLUDE += build
 INCLUDE += src
-INCLUDE += src/data
-INCLUDE += src/pipeline
-INCLUDE += src/interfaces
-INCLUDE += src/rules
 
 #source includes
-SOURCES += src/sdk.cpp
-SOURCES += src/pipeline/Pipeline.cpp
-SOURCES += src/data/Grid.cpp
-SOURCES += src/data/Collection.cpp
-SOURCES += src/rules/RepeatedDigitsRule.cpp
+SOURCES += src/sdk/sdk.cpp
+SOURCES += src/sdk/Pipeline.cpp
+SOURCES += src/sdk/data/Grid.cpp
+SOURCES += src/sdk/data/Digit.cpp
+SOURCES += src/sdk/rules/RepeatedDigitsRule.cpp
+SOURCES += src/sdk/rules/UniqueSpotRule.cpp
+SOURCES += src/sdk/rules/CollectionRule.cpp
 
 #lib includes
 

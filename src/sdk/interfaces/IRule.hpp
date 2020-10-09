@@ -4,9 +4,8 @@
 #ifndef _SDK_IRULE
 #define _SDK_IRULE
 
-#include "sdk_Grid.hpp"
-
 namespace sdk {
+namespace interfaces {
 class IRule {
  public:
   virtual ~IRule() {}
@@ -16,6 +15,7 @@ class IRule {
    */
   virtual bool Apply() = 0;
 };
+}  // namespace interfaces
 }  // namespace sdk
 
 #endif /* _SDK_IRULE */
