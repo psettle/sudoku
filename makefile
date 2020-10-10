@@ -1,5 +1,5 @@
 #config
-DEBUG=1
+DEBUG=0
 
 #setup
 SOURCES=
@@ -20,6 +20,7 @@ SOURCES += src/sdk/rules/CollectionRule.cpp
 SOURCES += src/sdk/rules/LimitedTupleIdentifier.cpp
 SOURCES += src/sdk/rules/LimitedTupleTrimmer.cpp
 SOURCES += src/sdk/rules/LimitedTupleMatcher.cpp
+SOURCES += src/sdk/rules/AlignedLimitedTupleRule.cpp
 
 #lib includes
 
@@ -29,9 +30,9 @@ EXECUTABLE_MAIN=build/main.cpp
 EXECUTABLE_MAIN_O=$(EXECUTABLE_MAIN:%.cpp=out/%.o)
 
 ifeq ($(DEBUG), 1)
-	FLAG_BUILD_MODE=-O0 -g
+	FLAG_BUILD_MODE=-O0 -ggdb3
 else
-	FLAG_BUILD_MODE=-O3
+	FLAG_BUILD_MODE=-O3 -ggdb3
 endif
 
 LDFLAGS=-Wall $(FLAG_BUILD_MODE)

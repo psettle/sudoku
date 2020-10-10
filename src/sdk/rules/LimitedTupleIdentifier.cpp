@@ -8,6 +8,7 @@
 #include "sdk/utility/SelectionIterator.hpp"
 
 using namespace sdk::rules;
+using ::sdk::data::Cell;
 using ::sdk::data::Collection;
 using ::sdk::data::Digit;
 
@@ -33,17 +34,17 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
                                             data::Digit const& digit) {
   // To be a limited tuple, digit must be an option on all elements of selection, and no other
   // elements of collection
-  for (Digit** el : selection) {
+  for (Cell** el : selection) {
     if (!(*el)->CanBe(digit)) {
       // Digit is not present in each element of the selection.
       return false;
     }
   }
 
-  for (Digit* cell : collection) {
+  for (Cell* cell : collection) {
     if (cell->CanBe(digit)) {
       bool in_selection = false;
-      for (Digit** el : selection) {
+      for (Cell** el : selection) {
         if (*el == cell) {
           in_selection = true;
         }
@@ -62,7 +63,7 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
   if (order_ == 1) {
     if (!(*selection[0])->IsSolved()) {
       // Found an order 1 case that was unsolved, so this is actually a solved digit
-      **selection[0] = digit;
+      (**selection[0]).Set(digit);
       return true;
     } else {
       // Found an order 1 case, but it was already a solved digit so we didn't make progress
@@ -72,10 +73,26 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
 
   // Save the limited tuple to the database
   // The database will decide if the tuple is a new find
-  std::vector<Digit*> tuple;
-  for (Digit** el : selection) {
+  std::vector<Cell*> tuple;
+  for (Cell** el : selection) {
     tuple.push_back(*el);
   }
 
-  return database_.Add(new data::LimitedTuple(tuple, digit));
+  data::LimitedTuple* new_tuple = new data::LimitedTuple(tuple, digit);
+
+  if (database_.Add(new_tuple)) {
+    SendProgress(*new_tuple);
+    return true;
+  } else {
+    return false;
+  }
+}
+
+/**
+ * Send a notification describing the logical progress that was made to observers
+ */
+void LimitedTupleIdentifier::SendProgress(data::LimitedTuple const& tuple) const {
+  for (auto observer : observers_) {
+    observer->OnLimitedTupleIdentified(tuple);
+  }
 }

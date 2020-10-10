@@ -7,6 +7,7 @@
 #define _SDK_SELECTIONITERATOR
 
 #include <stdint.h>
+#include <iostream>
 #include <vector>
 
 namespace sdk {
@@ -18,7 +19,8 @@ class SelectionIterator {
    * Initialize an iterator that will iterate over all collections of size order
    * in the provided container.
    */
-  SelectionIterator(Iterator const& begin, Iterator const& end, uint8_t order) : end_(end) {
+  SelectionIterator(Iterator const& begin, Iterator const& end, uint8_t order)
+      : iterators_(), end_(end) {
     while (order--) {
       iterators_.push_back(begin + iterators_.size());
     }
@@ -35,6 +37,7 @@ class SelectionIterator {
    * View the currently selected selection
    */
   std::vector<Iterator>& GetSelection() { return iterators_; }
+  std::vector<Iterator> const& GetSelection() const { return iterators_; }
 
  private:
   bool Increment(uint8_t order);
@@ -53,14 +56,16 @@ bool SelectionIterator<Iterator>::Increment(uint8_t order) {
     return false;
   }
 
-  // Increment iterator at the provided order
-  iterators_[iterators_.size() - order - 1]++;
+  size_t index = iterators_.size() - order - 1;
 
-  if (iterators_[iterators_.size() - order - 1] == end_ - order) {
+  // Increment iterator at the provided order
+  iterators_[index]++;
+
+  if (iterators_[index] == end_ - order) {
     // Iterator reached the last viable element, increment the higher order iterator and reset
     // ourselves to right after.
     if (Increment(order + 1)) {
-      iterators_[iterators_.size() - order - 1] = iterators_[iterators_.size() - order - 2] + 1;
+      iterators_[index] = iterators_[index - 1] + 1;
       return true;
     } else {
       // Incrementing the higher order iterator failed, so we are done.

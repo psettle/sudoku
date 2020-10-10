@@ -5,9 +5,9 @@
  * in any other cells
  */
 #include "sdk/rules/ExclusiveTupleRule.hpp"
-#include "sdk/utility/SelectionIterator.hpp"
 
 using namespace sdk::rules;
+using ::sdk::data::Cell;
 using ::sdk::data::Collection;
 using ::sdk::data::Digit;
 
@@ -18,7 +18,6 @@ bool ExclusiveTupleRule::Apply(Collection& collection) {
   bool progress = false;
   // Initialize a set of iterators, we will be running through all combinations
   utility::SelectionIterator<Collection::iterator> it(collection.begin(), collection.end(), order_);
-
   do {
     // Add up the total number of digits represented by the selected combination
     Digit count(0);
@@ -29,18 +28,39 @@ bool ExclusiveTupleRule::Apply(Collection& collection) {
     if (count.PossibleValues() == order_) {
       // The currently selected tuple contains order_ unique values, so the values
       // represented by count cannot exist in the rest of the collection
-      for (Digit* digit : collection) {
-        // Create a temp to check that removing count doesn't leave no possible values
-        // (If it did leave no possible values, then it was a member of the tuple and shouldn't be
-        // changed)
-        Digit temp = *digit;
-        if (temp.Remove(count) && temp.PossibleValues() > 0) {
-          *digit = temp;
+      for (Cell* cell : collection) {
+        // If cell is not in the exclusive tuple, remove all values from it
+        // that are in the exclusive tuple
+        bool found = false;
+        for (Collection::iterator& el : it.GetSelection()) {
+          if (*el == cell) {
+            found = true;
+          }
+        }
+        if (!found && cell->Remove(count)) {
           progress = true;
+          SendProgress(it, count, *cell);
         }
       }
     }
   } while (it.Increment());
 
   return progress;
+}
+
+/**
+ * Send a notification describing the logical progress that was made to listeners
+ */
+void ExclusiveTupleRule::SendProgress(
+    utility::SelectionIterator<Collection::iterator> const& exclusive_tuple,
+    Digit const& exclusive_values, Cell const& removed_from) const {
+  // Copy tuple from iterator into vector for listener interface
+  std::vector<Cell const*> tuple;
+  for (auto& it : exclusive_tuple.GetSelection()) {
+    tuple.push_back(*it);
+  }
+
+  for (auto listener : listeners_) {
+    listener->OnExclusiveTupleProgress(tuple, exclusive_values, removed_from);
+  }
 }

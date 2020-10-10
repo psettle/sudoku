@@ -6,6 +6,7 @@
 #include <array>
 #include <sstream>
 #include <string>
+#include "sdk/data/Cell.hpp"
 #include "sdk/data/Collection.hpp"
 #include "sdk/data/Digit.hpp"
 
@@ -35,7 +36,7 @@ class Grid {
   }
 
  private:
-  std::array<Digit, 9 * 9> cells_;
+  std::array<Cell, 9 * 9> cells_;
 
   View rows_;
   View columns_;

@@ -7,13 +7,15 @@
 #define _SDK_LIMITEDTUPLEDATABASE
 
 #include <memory>
-#include <unordered_set>
+#include <vector>
 #include "sdk/data/LimitedTuple.hpp"
 namespace sdk {
 namespace data {
 
 class LimitedTupleDatabase {
  public:
+  LimitedTupleDatabase() : tuples_() {}
+
   bool Add(LimitedTuple* limited_tuple) {
     // Check if we already have an equivalent tuple
     for (auto& tuple : tuples_) {
@@ -24,16 +26,23 @@ class LimitedTupleDatabase {
       }
     }
 
-    tuples_.emplace(std::unique_ptr<LimitedTuple>(limited_tuple));
+    tuples_.push_back(std::unique_ptr<LimitedTuple>(limited_tuple));
     return true;
   }
 
-  void Remove(std::unique_ptr<LimitedTuple> const& tuple) { tuples_.erase(tuple); }
+  void Remove(std::unique_ptr<LimitedTuple> const& tuple) {
+    for (auto it = tuples_.begin(); it != tuples_.end(); it++) {
+      if ((*it).get() == tuple.get()) {
+        tuples_.erase(it);
+        break;
+      }
+    }
+  }
 
-  std::unordered_set<std::unique_ptr<LimitedTuple>> const& GetTuples() const { return tuples_; }
+  std::vector<std::unique_ptr<LimitedTuple>> const& GetTuples() const { return tuples_; }
 
  private:
-  std::unordered_set<std::unique_ptr<LimitedTuple>> tuples_;
+  std::vector<std::unique_ptr<LimitedTuple>> tuples_;
 };
 }  // namespace data
 }  // namespace sdk

@@ -11,9 +11,11 @@ using namespace sdk::data;
 Grid::Grid(std::initializer_list<std::initializer_list<Digit>> const& digits) {
   // Populate cells with values
   size_t index = 0;
-  for (auto const& row : digits) {
-    for (auto const& cell : row) {
-      cells_[index++] = cell;
+  auto row_iterator = digits.begin();
+  for (size_t row_index = 0; row_index < 9; ++row_index, ++row_iterator) {
+    auto column_iterator = (*row_iterator).begin();
+    for (size_t column_index = 0; column_index < 9; ++column_index, ++column_iterator) {
+      cells_[index++] = Cell(*column_iterator, row_index, column_index);
     }
   }
 

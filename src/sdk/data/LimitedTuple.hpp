@@ -8,6 +8,7 @@
 
 #include <set>
 #include <vector>
+#include "sdk/data/Cell.hpp"
 #include "sdk/data/Digit.hpp"
 
 namespace sdk {
@@ -15,10 +16,10 @@ namespace data {
 
 class LimitedTuple {
  public:
-  LimitedTuple(std::vector<Digit*> selection, Digit const& digit)
+  LimitedTuple(std::vector<Cell*> selection, Digit const& digit)
       : selection_(selection), digit_(digit) {}
 
-  std::vector<Digit*> const& GetSelection() const { return selection_; }
+  std::vector<Cell*> const& GetSelection() const { return selection_; }
   Digit const& GetDigit() const { return digit_; }
 
   bool operator==(LimitedTuple const& other) const {
@@ -47,7 +48,7 @@ class LimitedTuple {
   }
 
  private:
-  std::vector<Digit*> selection_;
+  std::vector<Cell*> selection_;
   Digit const& digit_;
 };
 }  // namespace data
