@@ -15,16 +15,26 @@ namespace data {
 
 class Grid {
  public:
+  Grid(Grid const& other);
   Grid(std::initializer_list<std::initializer_list<Digit>> const& digits);
+
+  bool RemoveOptions(Grid const& other);
+  void IntersectOptions(Grid const& other);
 
   View& GetRowView() { return rows_; }
   View& GetColumnView() { return columns_; }
   View& GetBoxView() { return boxes_; }
 
-  bool IsSolved() const;
+  enum class SolveResult {
+    kSolved,
+    kBroken,
+    kNotSolved,
+  };
+
+  SolveResult IsSolved() const;
   std::string ToString() const {
     std::ostringstream str;
-    char ws = IsSolved() ? ' ' : '\t';
+    char ws = IsSolved() == SolveResult::kSolved ? ' ' : '\t';
     for (size_t i = 0; i < 9; ++i) {
       for (size_t j = 0; j < 9; ++j) {
         str << ws << cells_[9 * i + j].ToString();
@@ -36,6 +46,9 @@ class Grid {
   }
 
  private:
+  void Copy(Grid const& other);
+  void InitCollections();
+
   std::array<Cell, 9 * 9> cells_;
 
   View rows_;

@@ -7,6 +7,12 @@
 
 using namespace sdk::data;
 
+bool Digit::Intersect(Digit const& other) {
+  uint8_t before = PossibleValues();
+  val_ &= other.val_;
+  return PossibleValues() != before;
+}
+
 bool Digit::Remove(Digit const& other) {
   uint8_t before = PossibleValues();
   val_ &= ~other.val_;

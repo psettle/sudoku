@@ -17,7 +17,7 @@ class Pipeline {
     rules_.push_back(std::unique_ptr<interfaces::IRule>(rule));
   }
 
-  bool Run();
+  data::Grid::SolveResult Run();
 
  private:
   data::Grid* puzzle_;

@@ -21,6 +21,7 @@ SOURCES += src/sdk/rules/LimitedTupleIdentifier.cpp
 SOURCES += src/sdk/rules/LimitedTupleTrimmer.cpp
 SOURCES += src/sdk/rules/LimitedTupleMatcher.cpp
 SOURCES += src/sdk/rules/AlignedLimitedTupleRule.cpp
+SOURCES += src/sdk/rules/BisectRule.cpp
 
 #lib includes
 
@@ -32,7 +33,7 @@ EXECUTABLE_MAIN_O=$(EXECUTABLE_MAIN:%.cpp=out/%.o)
 ifeq ($(DEBUG), 1)
 	FLAG_BUILD_MODE=-O0 -ggdb3
 else
-	FLAG_BUILD_MODE=-O3 -ggdb3
+	FLAG_BUILD_MODE=-O3
 endif
 
 LDFLAGS=-Wall $(FLAG_BUILD_MODE)

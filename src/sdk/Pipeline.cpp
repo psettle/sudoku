@@ -13,7 +13,7 @@ Pipeline::Pipeline(data::Grid* puzzle) : puzzle_(puzzle) {}
 /**
  * Run rules until no progress is being made, then check if the puzzle is solved.
  */
-bool Pipeline::Run() {
+data::Grid::SolveResult Pipeline::Run() {
   // Run each rule until no progress is made
   while (true) {
     bool progress = false;

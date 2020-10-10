@@ -14,6 +14,7 @@ class Digit {
 
   bool IsSolved() const { return PossibleValues() == 1; }
 
+  bool Intersect(Digit const& other);
   bool Remove(Digit const& other);
   bool Add(Digit const& other);
 

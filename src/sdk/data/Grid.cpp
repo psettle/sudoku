@@ -5,6 +5,11 @@
 
 using namespace sdk::data;
 
+Grid::Grid(Grid const& other) {
+  Copy(other);
+  InitCollections();
+}
+
 /**
  * Populate grid with digits
  */
@@ -19,6 +24,64 @@ Grid::Grid(std::initializer_list<std::initializer_list<Digit>> const& digits) {
     }
   }
 
+  InitCollections();
+}
+
+/**
+ * Copy all cell values from other.
+ */
+void Grid::Copy(Grid const& other) {
+  for (size_t i = 0; i < cells_.size(); ++i) {
+    cells_[i].Set(other.cells_[i]);
+  }
+}
+
+/**
+ * Remove all options from other from ourselves
+ */
+bool Grid::RemoveOptions(Grid const& other) {
+  bool progress = false;
+  for (size_t i = 0; i < cells_.size(); ++i) {
+    progress |= cells_[i].Remove(other.cells_[i]);
+  }
+  return progress;
+}
+
+/**
+ * Remove all options not in other
+ */
+void Grid::IntersectOptions(Grid const& other) {
+  for (size_t i = 0; i < cells_.size(); ++i) {
+    cells_[i].Intersect(other.cells_[i]);
+  }
+}
+
+/**
+ * Check if the puzzle is solved.
+ */
+Grid::SolveResult Grid::IsSolved() const {
+  // Check that each digit is solved
+  bool found_unsolved = false;
+  for (Digit const& cell : cells_) {
+    if (0 == cell.PossibleValues()) {
+      // No values left so this grid is broken
+      return SolveResult::kBroken;
+    }
+
+    if (!cell.IsSolved()) {
+      found_unsolved = true;
+    }
+  }
+
+  if (found_unsolved) {
+    return SolveResult::kNotSolved;
+  } else {
+    // All digits solved
+    return SolveResult::kSolved;
+  }
+}
+
+void Grid::InitCollections() {
   // Populate row lookup table
   for (size_t row_index = 0; row_index < 9; ++row_index) {
     Collection& row = rows_[row_index];
@@ -49,19 +112,4 @@ Grid::Grid(std::initializer_list<std::initializer_list<Digit>> const& digits) {
       }
     }
   }
-}
-
-/**
- * Check if the puzzle is solved.
- */
-bool Grid::IsSolved() const {
-  // Check that each digit is solved
-  for (Digit const& cell : cells_) {
-    if (!cell.IsSolved()) {
-      return false;
-    }
-  }
-
-  // All digits solved
-  return true;
 }

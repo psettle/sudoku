@@ -6,6 +6,7 @@
 #include "sdk/Pipeline.hpp"
 #include "sdk/data/LimitedTupleDatabase.hpp"
 #include "sdk/rules/AlignedLimitedTupleRule.hpp"
+#include "sdk/rules/BisectRule.hpp"
 #include "sdk/rules/CollectionRule.hpp"
 #include "sdk/rules/ExclusiveTupleRule.hpp"
 #include "sdk/rules/LimitedTupleIdentifier.hpp"
@@ -20,10 +21,9 @@ static rules::CollectionRule* BuildCollectionRule(data::View& view,
 
 /**
  * Solve the provided puzzle in place.
- *
- * Return true on success, false on failure.
  */
-bool sdk::Solve(data::Grid& puzzle, interfaces::ISolveObserver* observer) {
+data::Grid::SolveResult sdk::Solve(data::Grid& puzzle, interfaces::ISolveObserver* observer,
+                                   uint8_t bisect_order, uint32_t bisect_depth) {
   Pipeline pipeline(&puzzle);
 
   data::LimitedTupleDatabase database;
@@ -55,6 +55,9 @@ bool sdk::Solve(data::Grid& puzzle, interfaces::ISolveObserver* observer) {
   aligned_rule = new rules::AlignedLimitedTupleRule(3, database, puzzle.GetBoxView());
   aligned_rule->AddListener(observer);
   pipeline.AddRule(aligned_rule);
+
+  auto bisect = new rules::BisectRule(&puzzle, bisect_order, bisect_depth);
+  pipeline.AddRule(bisect);
 
   return pipeline.Run();
 }
