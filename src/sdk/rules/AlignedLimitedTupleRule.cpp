@@ -10,6 +10,7 @@
 #include "sdk/rules/AlignedLimitedTupleRule.hpp"
 #include <memory>
 #include <set>
+#include "sdk/utility/SelectionIterator.hpp"
 
 using namespace sdk::rules;
 using ::sdk::data::Cell;
@@ -102,9 +103,29 @@ bool AlignedLimitedTupleRule::CheckSelection(
       // Attempt to remove the digit associated with the tuple
       if (cell->Remove(digit)) {
         progress = true;
+        SendProgress(selection, collections, *cell);
       }
     }
   }
 
   return progress;
+}
+
+void AlignedLimitedTupleRule::SendProgress(
+    std::vector<LimitedTupleList::const_iterator> const& aligned_tuples,
+    std::set<Collection*> const& matched_collections, Cell const& removed_from) {
+  // Translate internal data formats to external interface types
+  std::vector<data::LimitedTuple const*> tuples;
+  for (auto tuple : aligned_tuples) {
+    tuples.push_back(tuple->get());
+  }
+  std::vector<Collection const*> collections;
+  for (auto collection : matched_collections) {
+    collections.push_back(collection);
+  }
+
+  // Send notification
+  for (auto listener : listeners_) {
+    listener->OnAlignedLimitedTupleProgress(tuples, collections, removed_from);
+  }
 }

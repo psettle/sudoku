@@ -37,17 +37,23 @@ bool sdk::Solve(data::Grid& puzzle, interfaces::ISolveObserver* observer) {
   pipeline.AddRule(limited_tuple_trimmer);
 
   auto aligned_rule = new rules::AlignedLimitedTupleRule(2, database, puzzle.GetColumnView());
+  aligned_rule->AddListener(observer);
   pipeline.AddRule(aligned_rule);
   aligned_rule = new rules::AlignedLimitedTupleRule(2, database, puzzle.GetColumnView());
+  aligned_rule->AddListener(observer);
   pipeline.AddRule(aligned_rule);
   aligned_rule = new rules::AlignedLimitedTupleRule(2, database, puzzle.GetBoxView());
+  aligned_rule->AddListener(observer);
   pipeline.AddRule(aligned_rule);
 
   aligned_rule = new rules::AlignedLimitedTupleRule(3, database, puzzle.GetRowView());
+  aligned_rule->AddListener(observer);
   pipeline.AddRule(aligned_rule);
   aligned_rule = new rules::AlignedLimitedTupleRule(3, database, puzzle.GetColumnView());
+  aligned_rule->AddListener(observer);
   pipeline.AddRule(aligned_rule);
   aligned_rule = new rules::AlignedLimitedTupleRule(3, database, puzzle.GetBoxView());
+  aligned_rule->AddListener(observer);
   pipeline.AddRule(aligned_rule);
 
   return pipeline.Run();

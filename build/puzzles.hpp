@@ -74,5 +74,25 @@ static Grid xwing = Grid({{kU, k3, kU, k4, k8, kU, k6, kU, k9},
                           {kU, kU, kU, k1, k3, kU, kU, kU, kU},
                           {k9, kU, k2, kU, k4, k8, kU, k1, kU}});
 
+static Grid ywing = Grid({{kU, kU, kU, kU, kU, kU, kU, kU, kU},
+                          {kU, kU, kU, k1, kU, k7, kU, kU, k8},
+                          {kU, k7, kU, k3, k9, k2, k5, k4, k1},
+                          {kU, kU, k4, kU, kU, kU, kU, k9, k2},
+                          {kU, kU, k5, kU, kU, kU, k6, kU, kU},
+                          {k9, k3, kU, kU, kU, kU, k4, kU, kU},
+                          {k1, k9, k2, k7, k8, k5, kU, k6, kU},
+                          {k5, kU, kU, k4, kU, k3, kU, kU, kU},
+                          {kU, kU, kU, kU, kU, kU, kU, kU, kU}});
+
+static Grid swordfish = Grid({{kU, kU, k7, kU, kU, kU, k2, k8, kU},
+                              {kU, kU, k4, kU, k2, k5, kU, kU, kU},
+                              {k2, k8, kU, kU, kU, k4, k6, kU, kU},
+                              {kU, k9, kU, kU, kU, k6, kU, kU, kU},
+                              {k3, kU, kU, kU, kU, kU, kU, kU, k2},
+                              {kU, kU, kU, k1, kU, kU, kU, k9, kU},
+                              {kU, kU, k6, k2, kU, kU, kU, k7, k5},
+                              {kU, kU, kU, k5, k7, kU, k4, kU, kU},
+                              {kU, k7, k8, kU, kU, kU, k3, kU, kU}});
+
 }  // namespace data
 }  // namespace sdk

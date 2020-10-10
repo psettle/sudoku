@@ -13,8 +13,8 @@
 #include <stdint.h>
 #include "sdk/data/Collection.hpp"
 #include "sdk/data/LimitedTupleDatabase.hpp"
+#include "sdk/interfaces/IAlignedLimitedTupleListener.hpp"
 #include "sdk/interfaces/IRule.hpp"
-#include "sdk/utility/SelectionIterator.hpp"
 
 namespace sdk {
 namespace rules {
@@ -24,7 +24,11 @@ class AlignedLimitedTupleRule : public interfaces::IRule {
   virtual ~AlignedLimitedTupleRule() {}
 
   AlignedLimitedTupleRule(uint8_t order, data::LimitedTupleDatabase& database, data::View& view);
-
+  void AddListener(interfaces::IAlignedLimitedTupleListener* listener) {
+    if (nullptr != listener) {
+      listeners_.push_back(listener);
+    }
+  }
   /**
    * Implements IRule::Apply
    */
@@ -35,9 +39,14 @@ class AlignedLimitedTupleRule : public interfaces::IRule {
 
   bool CheckSelection(std::vector<LimitedTupleList::const_iterator> const& selection);
 
+  void SendProgress(std::vector<LimitedTupleList::const_iterator> const& aligned_tuples,
+                    std::set<data::Collection*> const& matched_collections,
+                    data::Cell const& removed_from);
+
   uint8_t order_;
   data::LimitedTupleDatabase& database_;
   data::View& view_;
+  std::vector<interfaces::IAlignedLimitedTupleListener*> listeners_;
 };
 
 }  // namespace rules

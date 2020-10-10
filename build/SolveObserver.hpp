@@ -50,6 +50,25 @@ class SolveObserver : public sdk::interfaces::ISolveObserver {
     steps_++;
   }
 
+  virtual void OnAlignedLimitedTupleProgress(
+      std::vector<data::LimitedTuple const*> const& aligned_tuples,
+      std::vector<data::Collection const*> const& matched_collections,
+      data::Cell const& removed_from) {
+    std::cout << "step " << steps_ << ": ";
+    std::cout << "Used limited tuples of:";
+    for (auto tuple : aligned_tuples) {
+      for (auto cell : tuple->GetSelection()) {
+        std::cout << " " << cell->PositionString();
+      }
+      std::cout << " and";
+    }
+
+    std::cout << " to remove " << aligned_tuples[0]->GetDigit().ToString() << " from "
+              << removed_from.PositionString() << std::endl;
+
+    steps_++;
+  }
+
  private:
   int steps_ = 0;
 };
