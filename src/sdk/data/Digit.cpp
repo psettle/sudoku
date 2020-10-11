@@ -109,5 +109,10 @@ std::string Digit::ToString() const {
   if (val_ & k9) {
     str += "9";
   }
+
+  if (str == "") {
+    str += "?";
+  }
+
   return str;
 }

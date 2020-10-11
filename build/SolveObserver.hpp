@@ -22,22 +22,26 @@ class SolveObserver : public sdk::interfaces::ISolveObserver {
 
     steps_++;
   }
-  // void OnLimitedTupleIdentified(LimitedTuple const& tuple) override {
-  //   std::cout << "Found limited tuple of:";
-  //   for (auto cell : tuple.GetSelection()) {
-  //     std::cout << " " << cell->PositionString();
-  //   }
-  //   std::cout << " of value: " << tuple.GetDigit().ToString() << std::endl;
-  // }
+  void OnLimitedTupleIdentified(LimitedTuple const& tuple) override {
+    std::cout << "step " << steps_ << ": ";
+    std::cout << "Found limited tuple of:";
+    for (auto cell : tuple.GetSelection()) {
+      std::cout << " " << cell->PositionString();
+    }
+    std::cout << " of value: " << tuple.GetDigit().ToString() << std::endl;
+    steps_++;
+  }
 
-  // void OnLimitedTupleTrimmed(LimitedTuple const& tuple, Cell const& breaking_member) override {
-  //   std::cout << "Removed limited tuple of:";
-  //   for (auto cell : tuple.GetSelection()) {
-  //     std::cout << " " << cell->PositionString();
-  //   }
-  //   std::cout << " because " << breaking_member.PositionString() << " can no longer be "
-  //             << tuple.GetDigit().ToString() << std::endl;
-  // }
+  void OnLimitedTupleTrimmed(LimitedTuple const& tuple, Cell const& breaking_member) override {
+    std::cout << "step " << steps_ << ": ";
+    std::cout << "Removed limited tuple of:";
+    for (auto cell : tuple.GetSelection()) {
+      std::cout << " " << cell->PositionString();
+    }
+    std::cout << " because " << breaking_member.PositionString() << " can no longer be "
+              << tuple.GetDigit().ToString() << std::endl;
+    steps_++;
+  }
   void OnLimitedTupleProgress(LimitedTuple const& tuple, Cell const& progressed_cell) override {
     std::cout << "step " << steps_ << ": ";
     std::cout << "Used limited tuple of:";
@@ -69,9 +73,30 @@ class SolveObserver : public sdk::interfaces::ISolveObserver {
     steps_++;
   }
 
-  void OnBisectStart(data::Cell const& target, data::Digit const& digit) override{};
-  void OnBisectBreak(data::Cell const& target, data::Digit const& impossible_value) {}
-  void OnBisectComplete(data::Grid const& impossible_values) override{};
+  void OnBisectStart(data::Cell const& target, data::Digit const& digit) override {
+    std::cout << "step " << steps_ << ": ";
+    std::cout << "Starting bisect of " << target.PositionString() << " using value "
+              << digit.ToString() << std::endl;
+
+    steps_++;
+  }
+
+  void OnBisectBreak(data::Cell const& target, data::Digit const& impossible_value) override {
+    std::cout << "step " << steps_ << ": ";
+    std::cout << "Bisect of " << target.PositionString() << " using value "
+              << impossible_value.ToString() << " broke the puzzle" << std::endl;
+
+    steps_++;
+  }
+
+  void OnBisectComplete(data::Grid const& impossible_values) override {
+    std::cout << "step " << steps_ << ": ";
+
+    std::cout << "Bisect complete, found impossible values" << std::endl
+              << impossible_values.ToString() << std::endl;
+
+    steps_++;
+  };
 
  private:
   int steps_ = 0;

@@ -37,6 +37,16 @@ void Cell::Set(Digit const& other) {
 }
 
 /**
+ * Set the value of this cell to the value of other.
+ */
+void Cell::Set(Cell const& other) {
+  Remove(kU);
+  Add(other);
+  row_ = other.row_;
+  column_ = other.column_;
+}
+
+/**
  * Get a string representing the position of the cell in the grid.
  */
 std::string Cell::PositionString() const {

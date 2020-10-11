@@ -17,6 +17,7 @@ class Cell : public Digit {
   uint16_t GetRow() const;
   uint16_t GetColumn() const;
   void Set(Digit const& other);
+  void Set(Cell const& other);
   std::string PositionString() const;
 
  private:

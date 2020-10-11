@@ -103,8 +103,10 @@ bool BisectRule::BisectCell(Cell* cell) {
     shared_results.IntersectOptions(bisect_result);
   }
 
+  SendBisectComplete(shared_results);
   // Apply all the shared progress to the real puzzle
-  return progress || puzzle_->RemoveOptions(shared_results);
+  progress |= puzzle_->RemoveOptions(shared_results);
+  return progress;
 }
 
 /**
