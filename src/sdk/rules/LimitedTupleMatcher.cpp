@@ -12,12 +12,27 @@ using ::sdk::data::Collection;
 using ::sdk::data::Digit;
 
 /**
+ * LimitedTupleMatcher ctor
+ */
+LimitedTupleMatcher::LimitedTupleMatcher(data::LimitedTupleDatabase* database)
+    : database_(database), observer_(nullptr) {}
+
+/**
+ * Set an observer for limited tuple usage notifications
+ */
+void LimitedTupleMatcher::SetObserver(interfaces::ILimitedTupleObserver* observer) {
+  if (observer) {
+    observer_ = observer;
+  }
+}
+
+/**
  * Apply the exclusive tubple rule to the provided collection
  */
 bool LimitedTupleMatcher::Apply(Collection& collection) {
   bool progress = false;
 
-  for (auto const& tuple : database_.GetTuples()) {
+  for (auto const& tuple : database_->GetTuples()) {
     progress |= UseTuple(collection, *tuple);
   }
 
@@ -68,11 +83,11 @@ bool LimitedTupleMatcher::UseTuple(data::Collection& collection, data::LimitedTu
 }
 
 /**
- * Send a notification describing the logical progress that was made to observers
+ * Send a notification describing the logical progress that was made to observer
  */
 void LimitedTupleMatcher::SendProgress(data::LimitedTuple const& tuple,
                                        data::Cell const& progressed_cell) const {
-  for (auto observer : observers_) {
-    observer->OnLimitedTupleProgress(tuple, progressed_cell);
+  if (observer_) {
+    observer_->OnLimitedTupleProgress(tuple, progressed_cell);
   }
 }

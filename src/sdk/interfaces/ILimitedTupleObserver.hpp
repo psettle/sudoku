@@ -1,5 +1,5 @@
 /**
- * sdk_ILimitedTupleObserver.hpp - Limited Tuple Observer
+ * ILimitedTupleObserver.hpp - Limited Tuple Observer
  *
  * Listener for progress made by limited tuple logic
  */

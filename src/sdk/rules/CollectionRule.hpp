@@ -18,16 +18,12 @@ class CollectionRule : public interfaces::IRule {
  public:
   virtual ~CollectionRule() {}
 
-  CollectionRule(data::View& view);
+  CollectionRule(data::View* view);
   void AddRule(interfaces::ICollectionRule* rule);
-
-  /**
-   * Implements IRule::Apply
-   */
   bool Apply() override;
 
  private:
-  data::View& view_;
+  data::View* view_;
   std::vector<std::unique_ptr<interfaces::ICollectionRule>> rules_;
 };
 }  // namespace rules

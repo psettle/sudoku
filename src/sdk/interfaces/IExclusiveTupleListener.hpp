@@ -1,5 +1,5 @@
 /**
- * sdk_IExclusiveTupleListener.hpp - Exclusive Tuple Listener
+ * IExclusiveTupleListener.hpp - Exclusive Tuple Listener
  *
  * Listener for progress made by exclusive tuple logic
  */

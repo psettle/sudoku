@@ -17,25 +17,16 @@ namespace rules {
 class LimitedTupleMatcher : public interfaces::ICollectionRule {
  public:
   virtual ~LimitedTupleMatcher() {}
-  LimitedTupleMatcher(data::LimitedTupleDatabase& database) : database_(database) {}
-
-  void AddObserver(interfaces::ILimitedTupleObserver* observer) {
-    if (nullptr != observer) {
-      observers_.push_back(observer);
-    }
-  }
-
-  /**
-   * Implements ICollectionRule::Apply
-   */
+  LimitedTupleMatcher(data::LimitedTupleDatabase* database);
+  void SetObserver(interfaces::ILimitedTupleObserver* observer);
   bool Apply(data::Collection& collection) override;
 
  private:
   bool UseTuple(data::Collection& collection, data::LimitedTuple const& tuple);
   void SendProgress(data::LimitedTuple const& tuple, data::Cell const& progressed_cell) const;
 
-  data::LimitedTupleDatabase& database_;
-  std::vector<interfaces::ILimitedTupleObserver*> observers_;
+  data::LimitedTupleDatabase* database_;
+  interfaces::ILimitedTupleObserver* observer_;
 };
 }  // namespace rules
 }  // namespace sdk

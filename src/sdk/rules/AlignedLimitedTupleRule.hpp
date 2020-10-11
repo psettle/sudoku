@@ -11,6 +11,7 @@
 #define _SDK_ALIGNEDLIMITEDTUPLERULE
 
 #include <stdint.h>
+#include <set>
 #include "sdk/data/Collection.hpp"
 #include "sdk/data/LimitedTupleDatabase.hpp"
 #include "sdk/interfaces/IAlignedLimitedTupleListener.hpp"
@@ -23,30 +24,22 @@ class AlignedLimitedTupleRule : public interfaces::IRule {
  public:
   virtual ~AlignedLimitedTupleRule() {}
 
-  AlignedLimitedTupleRule(uint8_t order, data::LimitedTupleDatabase& database, data::View& view);
-  void AddListener(interfaces::IAlignedLimitedTupleListener* listener) {
-    if (nullptr != listener) {
-      listeners_.push_back(listener);
-    }
-  }
-  /**
-   * Implements IRule::Apply
-   */
+  AlignedLimitedTupleRule(uint8_t order, data::LimitedTupleDatabase* database, data::View* view);
+  void SetListener(interfaces::IAlignedLimitedTupleListener* listener);
   bool Apply() override;
 
  private:
   using LimitedTupleList = std::vector<std::unique_ptr<data::LimitedTuple>>;
 
   bool CheckSelection(std::vector<LimitedTupleList::const_iterator> const& selection);
-
   void SendProgress(std::vector<LimitedTupleList::const_iterator> const& aligned_tuples,
                     std::set<data::Collection*> const& matched_collections,
                     data::Cell const& removed_from);
 
   uint8_t order_;
-  data::LimitedTupleDatabase& database_;
-  data::View& view_;
-  std::vector<interfaces::IAlignedLimitedTupleListener*> listeners_;
+  data::LimitedTupleDatabase* database_;
+  data::View* view_;
+  interfaces::IAlignedLimitedTupleListener* listener_;
 };
 
 }  // namespace rules

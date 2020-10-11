@@ -12,6 +12,20 @@ using ::sdk::data::Collection;
 using ::sdk::data::Digit;
 
 /**
+ * CollectionRule ctor
+ */
+ExclusiveTupleRule::ExclusiveTupleRule(uint8_t order) : order_(order), listener_(nullptr) {}
+
+/**
+ * Set a listener for exclusive tuple progress
+ */
+void ExclusiveTupleRule::SetListener(interfaces::IExclusiveTupleListener* listener) {
+  if (listener) {
+    listener_ = listener;
+  }
+}
+
+/**
  * Apply the exclusive tubple rule to the provided collection
  */
 bool ExclusiveTupleRule::Apply(Collection& collection) {
@@ -20,7 +34,7 @@ bool ExclusiveTupleRule::Apply(Collection& collection) {
   utility::SelectionIterator<Collection::iterator> it(collection.begin(), collection.end(), order_);
   do {
     // Add up the total number of digits represented by the selected combination
-    Digit count(0);
+    Digit count = data::kN;
     for (Collection::iterator& el : it.GetSelection()) {
       count.Add(**el);
     }
@@ -49,7 +63,7 @@ bool ExclusiveTupleRule::Apply(Collection& collection) {
 }
 
 /**
- * Send a notification describing the logical progress that was made to listeners
+ * Send a notification describing the logical progress that was made to listener
  */
 void ExclusiveTupleRule::SendProgress(
     utility::SelectionIterator<Collection::iterator> const& exclusive_tuple,
@@ -60,7 +74,7 @@ void ExclusiveTupleRule::SendProgress(
     tuple.push_back(*it);
   }
 
-  for (auto listener : listeners_) {
-    listener->OnExclusiveTupleProgress(tuple, exclusive_values, removed_from);
+  if (listener_) {
+    listener_->OnExclusiveTupleProgress(tuple, exclusive_values, removed_from);
   }
 }

@@ -12,6 +12,24 @@ using ::sdk::data::Cell;
 using ::sdk::data::Collection;
 using ::sdk::data::Digit;
 
+/**
+ * LimitedTupleIdentifier ctor
+ */
+LimitedTupleIdentifier::LimitedTupleIdentifier(uint8_t order, data::LimitedTupleDatabase* database)
+    : order_(order), database_(database), observer_(nullptr) {}
+
+/**
+ * Set a listener for limited tuple identification
+ */
+void LimitedTupleIdentifier::SetObserver(interfaces::ILimitedTupleObserver* observer) {
+  if (observer) {
+    observer_ = observer;
+  }
+}
+
+/**
+ * Look for limited tuples and add the the shared database
+ */
 bool LimitedTupleIdentifier::Apply(Collection& collection) {
   bool progress = false;
   // Initialize a set of iterators, we will be running through all combinations
@@ -80,7 +98,7 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
 
   data::LimitedTuple* new_tuple = new data::LimitedTuple(tuple, digit);
 
-  if (database_.Add(new_tuple)) {
+  if (database_->Add(new_tuple)) {
     SendProgress(*new_tuple);
     return true;
   } else {
@@ -89,10 +107,10 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
 }
 
 /**
- * Send a notification describing the logical progress that was made to observers
+ * Send a notification describing the logical progress that was made to observer
  */
 void LimitedTupleIdentifier::SendProgress(data::LimitedTuple const& tuple) const {
-  for (auto observer : observers_) {
-    observer->OnLimitedTupleIdentified(tuple);
+  if (observer_) {
+    observer_->OnLimitedTupleIdentified(tuple);
   }
 }

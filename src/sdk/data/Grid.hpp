@@ -32,18 +32,7 @@ class Grid {
   };
 
   SolveResult IsSolved() const;
-  std::string ToString() const {
-    std::ostringstream str;
-    char ws = IsSolved() == SolveResult::kSolved ? ' ' : '\t';
-    for (size_t i = 0; i < 9; ++i) {
-      for (size_t j = 0; j < 9; ++j) {
-        str << ws << cells_[9 * i + j].ToString();
-      }
-      str << std::endl;
-    }
-    str << std::endl;
-    return str.str();
-  }
+  std::string ToString() const;
 
  private:
   void Copy(Grid const& other);

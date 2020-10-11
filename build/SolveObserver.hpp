@@ -53,7 +53,7 @@ class SolveObserver : public sdk::interfaces::ISolveObserver {
   virtual void OnAlignedLimitedTupleProgress(
       std::vector<data::LimitedTuple const*> const& aligned_tuples,
       std::vector<data::Collection const*> const& matched_collections,
-      data::Cell const& removed_from) {
+      data::Cell const& removed_from) override {
     std::cout << "step " << steps_ << ": ";
     std::cout << "Used limited tuples of:";
     for (auto tuple : aligned_tuples) {
@@ -68,6 +68,10 @@ class SolveObserver : public sdk::interfaces::ISolveObserver {
 
     steps_++;
   }
+
+  void OnBisectStart(data::Cell const& target, data::Digit const& digit) override{};
+  void OnBisectBreak(data::Cell const& target, data::Digit const& impossible_value) {}
+  void OnBisectComplete(data::Grid const& impossible_values) override{};
 
  private:
   int steps_ = 0;

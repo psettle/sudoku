@@ -1,5 +1,5 @@
 /**
- * sdk_IRule.hpp - Sudoku Rule Interface
+ * IRule.hpp - Sudoku Rule Interface
  */
 #ifndef _SDK_IRULE
 #define _SDK_IRULE

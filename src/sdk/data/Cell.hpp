@@ -11,21 +11,13 @@ namespace sdk {
 namespace data {
 class Cell : public Digit {
  public:
-  Cell() : Digit(), row_(0xFF), column_(0xFF) {}
-  Cell(Digit const& other, uint8_t row, uint8_t column)
-      : Digit(other), row_(row), column_(column) {}
+  Cell();
+  Cell(Digit const& other, uint8_t row, uint8_t column);
 
-  uint16_t GetRow() const { return row_; }
-  uint16_t GetColumn() const { return column_; }
-
-  void Set(Digit const& other) {
-    Remove(kU);
-    Add(other);
-  }
-
-  std::string PositionString() const {
-    return "r" + std::to_string(GetRow()) + "c" + std::to_string(GetColumn());
-  }
+  uint16_t GetRow() const;
+  uint16_t GetColumn() const;
+  void Set(Digit const& other);
+  std::string PositionString() const;
 
  private:
   uint8_t row_;

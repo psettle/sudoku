@@ -6,7 +6,6 @@
 #ifndef _SDK_LIMITEDTUPLETRIMMER
 #define _SDK_LIMITEDTUPLETRIMMER
 
-#include <vector>
 #include "sdk/data/LimitedTupleDatabase.hpp"
 #include "sdk/interfaces/ILimitedTupleObserver.hpp"
 #include "sdk/interfaces/IRule.hpp"
@@ -16,22 +15,15 @@ namespace rules {
 class LimitedTupleTrimmer : public interfaces::IRule {
  public:
   virtual ~LimitedTupleTrimmer() {}
-  LimitedTupleTrimmer(data::LimitedTupleDatabase& database) : database_(database) {}
-  void AddObserver(interfaces::ILimitedTupleObserver* observer) {
-    if (nullptr != observer) {
-      observers_.push_back(observer);
-    }
-  }
-  /**
-   * Implements IRule::Apply
-   */
+  LimitedTupleTrimmer(data::LimitedTupleDatabase* database);
+  void SetObserver(interfaces::ILimitedTupleObserver* observer);
   bool Apply() override;
 
  private:
   void SendProgress(data::LimitedTuple const& tuple, data::Cell const& breaking_member) const;
 
-  data::LimitedTupleDatabase& database_;
-  std::vector<interfaces::ILimitedTupleObserver*> observers_;
+  data::LimitedTupleDatabase* database_;
+  interfaces::ILimitedTupleObserver* observer_;
 };
 }  // namespace rules
 }  // namespace sdk

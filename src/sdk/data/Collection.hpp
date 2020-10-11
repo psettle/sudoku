@@ -10,7 +10,15 @@
 
 namespace sdk {
 namespace data {
+
+/**
+ * A set of cells that must contain mutually exclusive values.
+ */
 typedef std::array<Cell*, 9> Collection;
+
+/**
+ * A set of collections that do not intersect and that cover the whole grid.
+ */
 typedef std::array<Collection, 9> View;
 
 }  // namespace data

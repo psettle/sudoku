@@ -1,5 +1,5 @@
 #config
-DEBUG=0
+DEBUG=1
 
 #setup
 SOURCES=
@@ -15,6 +15,9 @@ SOURCES += src/sdk/sdk.cpp
 SOURCES += src/sdk/Pipeline.cpp
 SOURCES += src/sdk/data/Grid.cpp
 SOURCES += src/sdk/data/Digit.cpp
+SOURCES += src/sdk/data/Cell.cpp
+SOURCES += src/sdk/data/LimitedTuple.cpp
+SOURCES += src/sdk/data/LimitedTupleDatabase.cpp
 SOURCES += src/sdk/rules/ExclusiveTupleRule.cpp
 SOURCES += src/sdk/rules/CollectionRule.cpp
 SOURCES += src/sdk/rules/LimitedTupleIdentifier.cpp

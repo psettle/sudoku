@@ -2,9 +2,13 @@
  * Grid.cpp - Sudoku Grid
  */
 #include "sdk/data/Grid.hpp"
+#include <sstream>
 
 using namespace sdk::data;
 
+/**
+ * Copy constructor
+ */
 Grid::Grid(Grid const& other) {
   Copy(other);
   InitCollections();
@@ -37,7 +41,7 @@ void Grid::Copy(Grid const& other) {
 }
 
 /**
- * Remove all options from other from ourselves
+ * Remove all options in other from ourselves
  */
 bool Grid::RemoveOptions(Grid const& other) {
   bool progress = false;
@@ -81,6 +85,25 @@ Grid::SolveResult Grid::IsSolved() const {
   }
 }
 
+/**
+ * Get string representation of current grid state
+ */
+std::string Grid::ToString() const {
+  std::ostringstream str;
+  char ws = IsSolved() == SolveResult::kSolved ? ' ' : '\t';
+  for (size_t i = 0; i < 9; ++i) {
+    for (size_t j = 0; j < 9; ++j) {
+      str << ws << cells_[9 * i + j].ToString();
+    }
+    str << std::endl;
+  }
+  str << std::endl;
+  return str.str();
+}
+
+/**
+ * Initialize the lookup tables for rows, columns, and boxes.
+ */
 void Grid::InitCollections() {
   // Populate row lookup table
   for (size_t row_index = 0; row_index < 9; ++row_index) {

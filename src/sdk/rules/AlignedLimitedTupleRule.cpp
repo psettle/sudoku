@@ -17,17 +17,29 @@ using ::sdk::data::Cell;
 using ::sdk::data::Collection;
 using ::sdk::data::Digit;
 
+/**
+ * AlignedLimitedTupleRule ctor
+ */
 AlignedLimitedTupleRule::AlignedLimitedTupleRule(uint8_t order,
-                                                 data::LimitedTupleDatabase& database,
-                                                 data::View& view)
-    : order_(order), database_(database), view_(view) {}
+                                                 data::LimitedTupleDatabase* database,
+                                                 data::View* view)
+    : order_(order), database_(database), view_(view), listener_(nullptr) {}
+
+/**
+ * Set a listener for solve progress
+ */
+void AlignedLimitedTupleRule::SetListener(interfaces::IAlignedLimitedTupleListener* listener) {
+  if (listener) {
+    listener_ = listener;
+  }
+}
 
 /**
  * Implements IRule::Apply
  */
 bool AlignedLimitedTupleRule::Apply() {
   // Iterate over all combinations of limited tuple of order order_
-  LimitedTupleList const& limited_tuples = database_.GetTuples();
+  LimitedTupleList const& limited_tuples = database_->GetTuples();
 
   if (limited_tuples.size() < order_) {
     // Not enough tuples found for this check
@@ -73,7 +85,7 @@ bool AlignedLimitedTupleRule::CheckSelection(
   std::set<Collection*> collections;
   // For each cell, find the collection it belongs to and save it
   for (Cell* cell : cells) {
-    for (Collection& collection : view_) {
+    for (Collection& collection : *view_) {
       for (Cell* member : collection) {
         if (cell == member) {
           // The cell from the limited tuple touches this collection
@@ -111,6 +123,9 @@ bool AlignedLimitedTupleRule::CheckSelection(
   return progress;
 }
 
+/**
+ * Send a aligned limited tuple progress notification
+ */
 void AlignedLimitedTupleRule::SendProgress(
     std::vector<LimitedTupleList::const_iterator> const& aligned_tuples,
     std::set<Collection*> const& matched_collections, Cell const& removed_from) {
@@ -125,7 +140,7 @@ void AlignedLimitedTupleRule::SendProgress(
   }
 
   // Send notification
-  for (auto listener : listeners_) {
-    listener->OnAlignedLimitedTupleProgress(tuples, collections, removed_from);
+  if (listener_) {
+    listener_->OnAlignedLimitedTupleProgress(tuples, collections, removed_from);
   }
 }
