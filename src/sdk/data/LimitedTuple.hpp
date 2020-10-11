@@ -15,16 +15,16 @@ namespace data {
 
 class LimitedTuple {
  public:
-  LimitedTuple(std::vector<Cell*> selection, Digit const& digit);
+  LimitedTuple(std::vector<Cell const*> selection, Digit const& digit);
 
-  std::vector<Cell*> const& GetSelection() const;
+  std::vector<Cell const*> const& GetSelection() const;
   Digit const& GetDigit() const;
 
   bool operator==(LimitedTuple const& other) const;
 
  private:
-  std::vector<Cell*> selection_;
-  Digit const& digit_;
+  std::vector<Cell const*> selection_;
+  Digit digit_;
 };
 }  // namespace data
 }  // namespace sdk

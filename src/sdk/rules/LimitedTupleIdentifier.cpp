@@ -82,6 +82,7 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
     if (!(*selection[0])->IsSolved()) {
       // Found an order 1 case that was unsolved, so this is actually a solved digit
       (**selection[0]).Set(digit);
+      SendProgress(**selection[0]);
       return true;
     } else {
       // Found an order 1 case, but it was already a solved digit so we didn't make progress
@@ -91,7 +92,7 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
 
   // Save the limited tuple to the database
   // The database will decide if the tuple is a new find
-  std::vector<Cell*> tuple;
+  std::vector<Cell const*> tuple;
   for (Cell** el : selection) {
     tuple.push_back(*el);
   }
@@ -99,7 +100,7 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
   data::LimitedTuple* new_tuple = new data::LimitedTuple(tuple, digit);
 
   if (database_->Add(new_tuple)) {
-    SendProgress(*new_tuple);
+    SendIdentified(*new_tuple);
     return true;
   } else {
     return false;
@@ -109,7 +110,18 @@ bool LimitedTupleIdentifier::CheckSelection(Collection& collection,
 /**
  * Send a notification describing the logical progress that was made to observer
  */
-void LimitedTupleIdentifier::SendProgress(data::LimitedTuple const& tuple) const {
+void LimitedTupleIdentifier::SendProgress(data::Cell const& progress) const {
+  std::vector<data::Cell const*> cells;
+  cells.push_back(&progress);
+  data::LimitedTuple const tuple(cells, progress);
+
+  SendIdentified(tuple);
+}
+
+/**
+ * Send a notification describing the logical progress that was made to observer
+ */
+void LimitedTupleIdentifier::SendIdentified(data::LimitedTuple const& tuple) const {
   if (observer_) {
     observer_->OnLimitedTupleIdentified(tuple);
   }

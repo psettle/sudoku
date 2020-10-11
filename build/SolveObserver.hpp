@@ -42,6 +42,7 @@ class SolveObserver : public sdk::interfaces::ISolveObserver {
               << tuple.GetDigit().ToString() << std::endl;
     steps_++;
   }
+
   void OnLimitedTupleProgress(LimitedTuple const& tuple, Cell const& progressed_cell) override {
     std::cout << "step " << steps_ << ": ";
     std::cout << "Used limited tuple of:";
@@ -73,10 +74,10 @@ class SolveObserver : public sdk::interfaces::ISolveObserver {
     steps_++;
   }
 
-  void OnBisectStart(data::Cell const& target, data::Digit const& digit) override {
+  void OnBisectStart(data::Cell const& target) override {
     std::cout << "step " << steps_ << ": ";
-    std::cout << "Starting bisect of " << target.PositionString() << " using value "
-              << digit.ToString() << std::endl;
+    std::cout << "Starting bisect of " << target.PositionString() << " using values "
+              << target.ToString() << std::endl;
 
     steps_++;
   }

@@ -23,7 +23,7 @@ class BisectRule : public interfaces::IRule {
 
  private:
   bool BisectCell(data::Cell* cell);
-  void SendBisectStart(data::Cell const& target, data::Digit const& digit) const;
+  void SendBisectStart(data::Cell const& target) const;
   void SendBisectBreak(data::Cell const& target, data::Digit const& impossible_value) const;
   void SendBisectComplete(data::Grid const& impossible_values) const;
 

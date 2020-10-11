@@ -15,13 +15,13 @@ using ::sdk::data::Digit;
  * Create a new limited tuple from a selection of cells and a digit that
  * must exist in that selection.
  */
-LimitedTuple::LimitedTuple(std::vector<Cell*> selection, Digit const& digit)
+LimitedTuple::LimitedTuple(std::vector<Cell const*> selection, Digit const& digit)
     : selection_(selection), digit_(digit) {}
 
 /**
  * Get the cells this limited tuple applies to.
  */
-std::vector<Cell*> const& LimitedTuple::GetSelection() const { return selection_; }
+std::vector<Cell const*> const& LimitedTuple::GetSelection() const { return selection_; }
 
 /**
  * Get the digit this limited tuple must contain.
@@ -44,13 +44,13 @@ bool LimitedTuple::operator==(LimitedTuple const& other) const {
   }
 
   // Now we need to check if these sets reference all the same digits
-  std::set<Digit*> temp;
+  std::set<Digit const*> temp;
 
-  for (Digit* digit : other.selection_) {
+  for (Digit const* digit : other.selection_) {
     temp.emplace(digit);
   }
 
-  for (Digit* digit : selection_) {
+  for (Digit const* digit : selection_) {
     temp.erase(digit);
   }
 

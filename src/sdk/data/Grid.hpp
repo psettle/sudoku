@@ -4,7 +4,6 @@
 #ifndef _SDK_GRID
 #define _SDK_GRID
 #include <array>
-#include <sstream>
 #include <string>
 #include "sdk/data/Cell.hpp"
 #include "sdk/data/Collection.hpp"

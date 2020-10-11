@@ -16,7 +16,7 @@ class IBisectListener {
  public:
   virtual ~IBisectListener() {}
 
-  virtual void OnBisectStart(data::Cell const& target, data::Digit const& digit) = 0;
+  virtual void OnBisectStart(data::Cell const& target) = 0;
   virtual void OnBisectBreak(data::Cell const& target, data::Digit const& impossible_value) {}
   virtual void OnBisectComplete(data::Grid const& impossible_values) = 0;
 };

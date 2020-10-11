@@ -24,8 +24,8 @@ class LimitedTupleIdentifier : public interfaces::ICollectionRule {
  private:
   bool CheckSelection(data::Collection& collection,
                       std::vector<data::Collection::iterator>& selection, data::Digit const& digit);
-
-  void SendProgress(data::LimitedTuple const& tuple) const;
+  void SendProgress(data::Cell const& progress) const;
+  void SendIdentified(data::LimitedTuple const& tuple) const;
 
   uint8_t order_;
   data::LimitedTupleDatabase* database_;

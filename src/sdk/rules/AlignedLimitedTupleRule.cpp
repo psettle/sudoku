@@ -71,9 +71,9 @@ bool AlignedLimitedTupleRule::CheckSelection(
   }
 
   // Collect all the cells involved in this selection.
-  std::set<Cell*> cells;
+  std::set<Cell const*> cells;
   for (auto const& it : selection) {
-    for (Cell* cell : (**it).GetSelection()) {
+    for (Cell const* cell : (**it).GetSelection()) {
       if (cells.count(cell) > 0) {
         // x-wing logic is not valid if limited tuples overlap
         return false;
@@ -84,7 +84,7 @@ bool AlignedLimitedTupleRule::CheckSelection(
 
   std::set<Collection*> collections;
   // For each cell, find the collection it belongs to and save it
-  for (Cell* cell : cells) {
+  for (Cell const* cell : cells) {
     for (Collection& collection : *view_) {
       for (Cell* member : collection) {
         if (cell == member) {

@@ -55,7 +55,7 @@ bool BisectRule::Apply() {
  * run a bisect on it.
  */
 bool BisectRule::BisectCell(Cell* cell) {
-  if (cell->PossibleValues() > order_ || cell->PossibleValues() == 1) {
+  if (cell->PossibleValues() > order_ || cell->PossibleValues() <= 1) {
     // Either solved cell, or too many options to bisect, no progress
     return false;
   }
@@ -63,14 +63,14 @@ bool BisectRule::BisectCell(Cell* cell) {
 
   // Set of differences between the current puzzle and bisect results
   std::vector<Grid> bisect_results;
-
+  SendBisectStart(*cell);
   for (Digit const& digit : data::kDigits) {
     if (cell->CanBe(digit)) {
       Grid copy(*puzzle_);
 
       // Try the selected digit on the copy
       copy.GetRowView()[cell->GetRow()][cell->GetColumn()]->Set(digit);
-      SendBisectStart(*cell, digit);
+
       Grid::SolveResult result = Solve(copy, observer_, order_, depth_ - 1);
 
       if (result == Grid::SolveResult::kBroken) {
@@ -99,6 +99,9 @@ bool BisectRule::BisectCell(Cell* cell) {
                               {kU, kU, kU, kU, kU, kU, kU, kU, kU},
                               {kU, kU, kU, kU, kU, kU, kU, kU, kU}});
 
+  // Note it's possible that bisect_results is empty for broken puzzles
+  // If this happens the RemoveOptions() call below will totally clear the
+  // puzzle which is an effective way of tagging the puzzle as invalid.
   for (Grid const& bisect_result : bisect_results) {
     shared_results.IntersectOptions(bisect_result);
   }
@@ -112,9 +115,9 @@ bool BisectRule::BisectCell(Cell* cell) {
 /**
  * Send a bisect start notification to observer
  */
-void BisectRule::SendBisectStart(Cell const& target, Digit const& digit) const {
+void BisectRule::SendBisectStart(Cell const& target) const {
   if (observer_) {
-    observer_->OnBisectStart(target, digit);
+    observer_->OnBisectStart(target);
   }
 }
 

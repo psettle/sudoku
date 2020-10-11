@@ -44,7 +44,7 @@ bool LimitedTupleMatcher::Apply(Collection& collection) {
  */
 bool LimitedTupleMatcher::UseTuple(data::Collection& collection, data::LimitedTuple const& tuple) {
   // Check that the tuple is completely in the collection
-  for (Digit* tuple_digit : tuple.GetSelection()) {
+  for (Digit const* tuple_digit : tuple.GetSelection()) {
     bool found = false;
     for (Digit* digit : collection) {
       if (digit == tuple_digit) {
@@ -63,7 +63,7 @@ bool LimitedTupleMatcher::UseTuple(data::Collection& collection, data::LimitedTu
   // Find all the digits in collection that aren't in the tuple
   for (Cell* digit : collection) {
     bool found = false;
-    for (Digit* tuple_digit : tuple.GetSelection()) {
+    for (Digit const* tuple_digit : tuple.GetSelection()) {
       if (digit == tuple_digit) {
         found = true;
         break;
