@@ -114,5 +114,15 @@ static Grid diabolical = Grid({{kU, k5, kU, k1, kU, kU, kU, k2, k8},
                                {kU, kU, kU, kU, kU, kU, kU, kU, k7},
                                {k6, k9, kU, kU, kU, k4, kU, k1, kU}});
 
+static Grid unsolved = Grid({{k1, kU, kU, kU, k2, kU, kU, kU, kU},
+                             {kU, k6, kU, kU, k4, k8, k5, kU, kU},
+                             {k2, k8, kU, kU, kU, k9, k7, kU, kU},
+                             {kU, kU, kU, k3, kU, kU, kU, k6, kU},
+                             {kU, k5, kU, kU, kU, k6, k9, kU, kU},
+                             {kU, kU, kU, kU, kU, kU, kU, k4, kU},
+                             {kU, kU, kU, kU, kU, kU, k6, kU, kU},
+                             {kU, k9, kU, kU, kU, kU, kU, k5, k7},
+                             {kU, kU, k6, kU, kU, k7, kU, k8, k9}});
+
 }  // namespace data
 }  // namespace sdk

@@ -32,6 +32,8 @@ int main() {
   std::cout << "min" << std::endl << min.ToString() << std::endl;
   sdk::Solve(diabolical);
   std::cout << "diabolical" << std::endl << diabolical.ToString() << std::endl;
+  sdk::Solve(unsolved, nullptr, 3, 2);
+  std::cout << "unsolved" << std::endl << unsolved.ToString() << std::endl;
 
   return 0;
 }
