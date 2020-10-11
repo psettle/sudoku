@@ -8,7 +8,7 @@
 
 #include <memory>
 #include <vector>
-#include "sdk/data/Collection.hpp"
+#include "sdk/data/Grid.hpp"
 #include "sdk/interfaces/ICollectionRule.hpp"
 #include "sdk/interfaces/IRule.hpp"
 
@@ -17,14 +17,12 @@ namespace rules {
 class CollectionRule : public interfaces::IRule {
  public:
   virtual ~CollectionRule() {}
-
-  CollectionRule(data::View* view);
-  void AddRule(interfaces::ICollectionRule* rule);
+  CollectionRule(data::Grid* puzzle, interfaces::ICollectionRule* rule);
   bool Apply() override;
 
  private:
-  data::View* view_;
-  std::vector<std::unique_ptr<interfaces::ICollectionRule>> rules_;
+  data::Grid* puzzle_;
+  std::unique_ptr<interfaces::ICollectionRule> rule_;
 };
 }  // namespace rules
 }  // namespace sdk

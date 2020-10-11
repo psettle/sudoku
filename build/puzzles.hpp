@@ -94,5 +94,25 @@ static Grid swordfish = Grid({{kU, kU, k7, kU, kU, kU, k2, k8, kU},
                               {kU, kU, kU, k5, k7, kU, k4, kU, kU},
                               {kU, k7, k8, kU, kU, kU, k3, kU, kU}});
 
+static Grid min = Grid({{kU, kU, kU, kU, kU, kU, kU, k1, kU},
+                        {kU, kU, kU, kU, kU, k2, kU, kU, k3},
+                        {kU, kU, kU, k4, kU, kU, kU, kU, kU},
+                        {kU, kU, kU, kU, kU, kU, k5, kU, kU},
+                        {k4, kU, k1, k6, kU, kU, kU, kU, kU},
+                        {kU, kU, k7, k1, kU, kU, kU, kU, kU},
+                        {kU, k5, kU, kU, kU, kU, k2, kU, kU},
+                        {kU, kU, kU, kU, k8, kU, kU, k4, kU},
+                        {kU, k3, kU, k9, k1, kU, kU, kU, kU}});
+
+static Grid diabolical = Grid({{kU, k5, kU, k1, kU, kU, kU, k2, k8},
+                               {k4, kU, kU, kU, kU, kU, kU, kU, kU},
+                               {kU, kU, kU, k5, kU, k7, k4, kU, k3},
+                               {kU, kU, kU, kU, k5, k1, kU, k8, kU},
+                               {kU, kU, k1, k8, kU, k9, k6, kU, kU},
+                               {kU, k8, kU, k3, k6, kU, kU, kU, kU},
+                               {k1, kU, k5, k7, kU, k3, kU, kU, kU},
+                               {kU, kU, kU, kU, kU, kU, kU, kU, k7},
+                               {k6, k9, kU, kU, kU, k4, kU, k1, kU}});
+
 }  // namespace data
 }  // namespace sdk

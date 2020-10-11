@@ -12,16 +12,16 @@ namespace sdk {
 class Pipeline {
  public:
   Pipeline(data::Grid* puzzle);
-
-  void AddRule(interfaces::IRule* rule) {
-    rules_.push_back(std::unique_ptr<interfaces::IRule>(rule));
-  }
-
+  void AddTrivialRule(interfaces::IRule* rule);
+  void AddComplexRule(interfaces::IRule* rule);
+  void AddHammerRule(interfaces::IRule* rule);
   data::Grid::SolveResult Run();
 
  private:
   data::Grid* puzzle_;
-  std::vector<std::unique_ptr<interfaces::IRule>> rules_;
+  std::vector<std::unique_ptr<interfaces::IRule>> trivial_rules_;
+  std::vector<std::unique_ptr<interfaces::IRule>> complex_rules_;
+  std::vector<std::unique_ptr<interfaces::IRule>> hammer_rules_;
 };
 }  // namespace sdk
 
